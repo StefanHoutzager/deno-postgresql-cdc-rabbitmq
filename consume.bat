@@ -1,0 +1,1 @@
+deno run --allow-net ./src/consume_dc_events.ts queue

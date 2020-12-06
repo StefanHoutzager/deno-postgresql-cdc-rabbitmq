@@ -1,0 +1,1 @@
+pg_recvlogical -d admin -U postgres --slot cdc_slot --drop-slot

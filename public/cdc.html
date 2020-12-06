@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show data capture messages</title>
+    <link type="text/css" rel="stylesheet" href="/css/cdc.css">
+</head>
+<body>
+  <div id="wrapper">
+      <div id="box"></div>
+  </div>
+
+<!-- Include from CDN for better performance, alternatively you can locally copy as well -->
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@6.0.0/bundles/stomp.umd.min.js"></script>
+
+  <script type="application/javascript">
+      document.addEventListener("DOMContentLoaded", function() { 
+
+        let stompClient;
+
+        const stompConfig = {
+
+          connectHeaders: {
+            login: "guest",
+            passcode: "guest"
+          },
+
+          brokerURL: "ws://localhost:15674/ws",
+
+          // Keep it off for production, it can be quit verbose
+          // Skip this key to disable
+          debug: function (str) {
+            console.log('STOMP: ' + str);
+          },
+
+          // If disconnected, it will retry after 200ms
+          reconnectDelay: 200,
+
+          // Subscriptions should be done inside onConnect as those need to reinstated when the broker reconnects
+          onConnect: function (frame) {
+            // The return object has a method called `unsubscribe`
+            const subscription = stompClient.subscribe(
+              '/exchange/cdc_exchange/cdc', 
+              function (message) {
+                const text = new TextDecoder().decode(message._binaryBody);
+                displayIncomingMessage(text); 
+                message.ack();
+              },   
+              {'ack':'client-individual'}
+            );
+          }
+        };
+
+        // Create an instance
+        stompClient = new StompJs.Client(stompConfig);
+
+        // You can set additional configuration here
+
+        // Attempt to connect
+        stompClient.activate();
+
+        function displayIncomingMessage(message) {
+          const msgDiv = document.createElement("div");
+          const msgSpan = document.createElement("span");
+          
+          msgSpan.className = "message";
+          msgSpan.textContent = message;
+          msgDiv.className = "msgln";
+          document.getElementById("box").appendChild(msgDiv);
+          msgDiv.appendChild(msgSpan);
+        }
+      }
+    )
+  </script>
+</body>
+</html>

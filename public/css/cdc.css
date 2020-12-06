@@ -1,0 +1,46 @@
+/* CSS Document */
+body {
+    font: 12px arial;
+    color: #222;
+    text-align: center;
+    padding: 10px;
+}
+
+p, span {
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+    margin: 0 auto;
+    padding-bottom: 10px;
+    background: #EBF4FB;
+    width: 1200px;
+    border: 1px solid #ACD8F0;
+}
+
+#box {
+    text-align: left;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+    height: 650px;
+    width: 1100px;
+    border: 1px solid #ACD8F0;
+    overflow: auto;
+}
+
+#box span.message {
+    white-space: pre-wrap;
+    font-weight: bold;
+    color: rgb(100, 98, 0);
+    padding-right: 2pt;
+    height: 600px;
+    width: 900px;    
+}
+
+.msgln {
+    margin: 0 0 2px 0;
+}
